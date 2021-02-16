@@ -2,9 +2,10 @@ from typing import List
 
 
 class Pv:
-    def __init__(self, nominal_current, nominal_voltage):
+    def __init__(self, nominal_current, nominal_voltage, direction):
         self.nominal_current = nominal_current
         self.nominal_voltage = nominal_voltage
+        self.direction = direction
 
     def __str__(self):
         return f'\n\tcurrent: {self.nominal_current} \n\tvoltage: {self.nominal_voltage}'
@@ -45,6 +46,6 @@ class Inverter:
         self.series_list.append(series)
 
 
-series = PvSeries(Pv(10, 20), 10)
+series = PvSeries(Pv(10, 20, 180), 10)
 
 print(series.get_output_current(), series.get_output_voltage())
