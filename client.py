@@ -8,7 +8,7 @@ class Client:
         self.connected = False
 
     def is_connected(self):
-        return connected
+        return self.connected
     
     def connect(self):
         self.mqttc.connect("test.mosquitto.org", 1883, 60)

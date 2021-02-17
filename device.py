@@ -2,11 +2,11 @@ from time import sleep
 from VirtualCopernicusNG import TkCircuit
 configuration = {
     "name": "Panel",
-    "sheet": "sheet_smarthouse.png",
+    "sheet": "solar1.png",
     "width": 332,
-    "height": 300,
+    "height": 250,
     "leds": [
-        {"x": 112, "y": 70, "name": "LED 1", "pin": 21}
+        {"x": 200, "y": 40, "name": "LED 1", "pin": 21}
     ],
     "buttons": [
         {"x": 242, "y": 146, "name": "Button 1", "pin": 11}
@@ -32,18 +32,15 @@ def main():
     led1 = LED(21)
 
     def button1_pressed():
-        print('pressed')
-        client.connect()
         led1.on()
+        client.connect()
+        
 
     button1 = Button(11)
     button1.when_pressed = button1_pressed
 
     from Panel import Panel
     panel = Panel("1", 5, 80)
-
-    while True:
-        pass
 
     while True:
         if client.is_connected():
