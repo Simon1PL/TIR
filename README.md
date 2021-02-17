@@ -1,18 +1,25 @@
 # TIR
 ## Uruchamianie
-1. odaplic server.py
-2. odpalic Panel.py
+1. Uruchomić server.py
+2. Uruchomić device.py
+
+Aby połączyć urządzenie z serwerem, należy kliknąć przycisk na urządzeniu.
+Do jednego serwera można podłączyć wiele urządzeń, 
+każdy uruchomiony skrypt device.py imituje jedno urządzenie.
 
 ## Pliki:
 - sunposition.py - serwis zwracajacy dane na temat słońca.
 Kąt padania promieni dla danych współrzędnych geograficznych i daty.
 
-- inverter.py - 
-
 - Panel.py - klasa pojedynczego panelu słonecznego.
-W mainie odpalamy panele skrypty emitujące działanie paneli słonecznych.
-    - send_data_to_server(data) - metoda panelu przyjmująca obiekt z danymi dla servera
-    
-- server.py - server odbierający dane od paneli (napięcie i natężenie).
-TO DO: rysowanie wykresów otrzymanych danych.
-    - load_panel_data(data) - funkcja przyjmująca dane od panelu. W niej napisać co robić z danymi.
+
+- device.py - Symulacja realnego urządzenia obsługującego panel.
+
+Komunikacja pomiędzy serwerem, a klientem odbywa się przy użyciu protokołu MQTT.
+
+- server.py - Server odbierający dane od paneli (napięcie i natężenie).
+
+- client.py - Klasa, której używa urządzenie (device) do łączenia się z serwerem.
+
+- diagrams.py - Skrypt rysujący diagramy z danych.
+
