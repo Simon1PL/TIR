@@ -1,14 +1,30 @@
-import socket
-host = '127.0.0.1'
-port = 1883
-s = socket.socket()
-s.bind((host, port))
-s.listen(60)
-while True:
-    conn, addr = s.accept()
-    print("Connected by", addr)
-    data = conn.recv(1024)
-    print("received data:", data)
-    conn.send(data)
-    conn.close()
+import json
+import paho.mqtt.client as mqtt
 
+
+def load_panel_data(data):
+    for k in range(len(data['I'])):
+        print(data['I'][k], data['V'][k])
+    print("Panel name: " + data["panel_name"])
+
+
+def on_message(client, userdata, msg):
+    data = msg.payload.decode("utf-8")
+    print("received: " + msg.topic + " " + data)
+    if "from_panel" in msg.topic:
+        load_panel_data(json.loads(data))
+    else:
+        print("Unavailable command: " + msg.topic)
+
+
+def on_connect(client, userdata, flags, rc):
+    print("server started")
+    mqttc.subscribe("data/from_panel/#")   # odbieranie wiadomosci od paneli
+
+
+mqttc = mqtt.Client("server")
+mqttc.on_message = on_message
+mqttc.on_connect = on_connect
+mqttc.connect("test.mosquitto.org", 1883, 60)
+
+mqttc.loop_forever()

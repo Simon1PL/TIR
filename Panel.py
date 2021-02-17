@@ -1,3 +1,4 @@
+import json
 from math import cos
 import paho.mqtt.client as mqtt
 import matplotlib.pyplot as plt
@@ -32,24 +33,22 @@ class Panel:
         self._name = name
         self._direction = direction
         self._tilt = tilt
-        self.mqttc = mqtt.Client(name)
-        self.mqttc.on_message = self.on_message
-        self.mqttc.on_connect = self.on_connect
-        self.start_data = [1, 2]
         self.latitude = [latitude]
         self.longitude = [longitude]
         self.factor = 0
         self.current = current
         self.voltage = voltage
+        self.mqttc = mqtt.Client(name)
+        self.mqttc.connect("test.mosquitto.org", 1883, 60)
 
-        #   self.mqttc.connect('127.0.0.1', 1883, 10)
-        self.mqttc.subscribe("data/from_panel/1")
-        print("HELLO")
+        print("Hello panel: " + self.name)
 
-    def do_work(self):
-        print("work")
-        data = self.start_data.pop()
-        self.mqttc.publish("data/from_panel/1", data, 0, False)
+    @property
+    def name(self):
+        return self._name
+
+    def send_data_to_server(self, data):
+        self.mqttc.publish("data/from_panel/" + self._name, payload=json.dumps(data), qos=0, retain=False)
 
     def set_factor(self, time):
         if time is None:
@@ -63,21 +62,6 @@ class Panel:
         if factor < 0:
             factor = 0
         self.factor = factor
-
-    def load_data(self, command):
-        self.start_data.extend(command)
-
-    def on_message(self, msg):
-        command = msg.payload.decode("utf-8")
-        print("received: " + msg.topic + " " + command)
-        if "startData" in msg.topic:
-            self.load_data(command)
-        else:
-            print("Unavailable command: " + msg.topic)
-
-    def on_connect(self, rc):
-        print(self._name + " connected with result code " + str(rc))
-        self.mqttc.subscribe("data/from_panel/1")
 
     def get_power_stats(self, g):
         random_losses = random.uniform(0.7, 0.8)
@@ -120,7 +104,7 @@ def myplot(T, V):
 
 
 def main():
-    panel_first = Panel("1", 180, 30, 20, 20, 5, 80)
+    panel_first = Panel("1", 180, 30, 20, 20, 5, 80)  # Uwaga, name panelu musi byc unikalny, bo uzywamy go jako id clienta servera mqtt
     # T = panel_first.getT()
     # V = panel_first.getV(T)
     # I = panel_first.getI(V)
@@ -134,10 +118,8 @@ def main():
             i, v = panel_first.get_power_stats(calculate_g(direction, tilt, latitude, longitude, now))
             I.append(i)
             V.append(v)
-        # while len(panel_first.start_data):
-        #     panel_first.do_work()
-        # panel_first.mqttc.loop_forever()
     myplot(I, V)
+    panel_first.send_data_to_server({"panel_name": panel_first.name, "I": I, "V": V})
 
 
 if __name__ == '__main__':
