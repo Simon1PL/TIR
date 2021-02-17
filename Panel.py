@@ -52,12 +52,13 @@ class Panel:
         V = self.voltage + g * random_losses / 500 - 1
         return I, V
 
-    def calculate_data(self):
-        now = datetime.now()
-        g = calculate_g(direction, tilt, latitude, longitude, now)
-        print(now, self.get_power_stats(g))
-        i, v = self.get_power_stats(calculate_g(direction, tilt, latitude, longitude, now))
-        data = {"panel_name": self.name, "I": i, "V": v, "G": g, "S": s, "Time": now.__str__()}
+    def calculate_data(self, time):
+        if time is None:
+            time = datetime.now()
+        g = calculate_g(direction, tilt, latitude, longitude, time)
+        print(time, self.get_power_stats(g))
+        i, v = self.get_power_stats(calculate_g(direction, tilt, latitude, longitude, time))
+        data = {"panel_name": self.name, "I": i, "V": v, "G": g, "S": s, "Time": time.__str__()}
         return data
 
     # def getT(self):

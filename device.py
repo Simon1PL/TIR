@@ -1,5 +1,7 @@
 from time import sleep
 from VirtualCopernicusNG import TkCircuit
+from datetime import datetime
+
 configuration = {
     "name": "Panel",
     "sheet": "solar1.png",
@@ -22,7 +24,6 @@ latitude = 50.049683
 longitude = 19.944544
 
 
-
 @circuit.run
 def main():
     from client import Client
@@ -34,7 +35,14 @@ def main():
     def button1_pressed():
         led1.on()
         client.connect()
-        
+        for k in range(11, 24):
+            for j in range(0, 60, 5):
+                for i in range(0, 60, 10):
+                    now = datetime(2021, 2, 17, k, j, i)
+                    if client.is_connected():
+                        print('connected')
+                        data = panel.calculate_data(now)
+                        client.send_data(data)
 
     button1 = Button(11)
     button1.when_pressed = button1_pressed
@@ -45,6 +53,6 @@ def main():
     while True:
         if client.is_connected():
             print('connected')
-            data = panel.calculate_data()
+            data = panel.calculate_data(None)
             client.send_data(data)
             sleep(3)
