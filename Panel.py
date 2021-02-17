@@ -41,9 +41,6 @@ class Panel:
     def name(self):
         return self._name
 
-    def send_data_to_server(self, data):
-        self.mqttc.publish("data/from_panel/" + self._name, payload=json.dumps(data), qos=0, retain=False)
-
     def get_power_stats(self, g):
         random_losses = random.uniform(0.7, 0.8)
         I = g * self.current * random_losses / 1000
@@ -76,35 +73,5 @@ class Panel:
     #     return T
 
 
-def myplot(T, V):
-    x = np.arange(len(V))
-    plt.plot(x, V, 'tab:blue', x, T, 'tab:red')
-    plt.ylim(0, 5)
-    plt.show()
-
-
-def main():
-    panel_first = Panel("1", 5, 80)  # Uwaga, name panelu musi byc unikalny, bo uzywamy go jako id clienta servera mqtt
-    # T = panel_first.getT()
-    # V = panel_first.getV(T)
-    # I = panel_first.getI(V)
-    I = []
-    V = []
-    # myplot(T, V, I)
-    for k in range(24):
-        for j in range(0, 60, 5):
-            now = datetime(2021, 2, 14, k, j, 0)
-            g = calculate_g(direction, tilt, latitude, longitude, now)
-            print(now, panel_first.get_power_stats(g))
-            i, v = panel_first.get_power_stats(calculate_g(direction, tilt, latitude, longitude, now))
-            # panel_first.mqttc.publish("data/from_panel/" + panel_first.name,
-            #                           str(i) + ',' + str(v) + ',' + str(g) + ',' + str(s))
-            panel_first.send_data_to_server(
-                {"panel_name": panel_first.name, "I": i, "V": v, "G": g, "S": s, "Time": now.__str__()})
-            I.append(i)
-            V.append(v)
-    myplot(I, V)
-
-
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+    # main()
