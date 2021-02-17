@@ -52,6 +52,7 @@ class Panel:
         V = self.voltage + g * random_losses / 500 - 1
         return I, V
 
+<<<<<<< HEAD
     def calculate_data(self):
         now = datetime()
         g = calculate_g(direction, tilt, latitude, longitude, now)
@@ -60,6 +61,8 @@ class Panel:
         data = {"panel_name": panel_first.name, "I": i, "V": v, "G": g, "S": s, "Time": now.__str__()}
         return data
 
+=======
+>>>>>>> 391778d512c6cd855a7991ba416e01405134d178
     # def getT(self):
     #     np.random.seed(19680801)
     #     y = np.random.normal(loc=55, scale=1.0, size=50)
