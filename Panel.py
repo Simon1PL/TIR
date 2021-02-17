@@ -34,8 +34,6 @@ class Panel:
         self.factor = 0
         self.current = current
         self.voltage = voltage
-        #self.mqttc = mqtt.Client(name)
-        #self.mqttc.connect("test.mosquitto.org", 1883, 60)
 
         print("Hello panel: " + self.name)
 

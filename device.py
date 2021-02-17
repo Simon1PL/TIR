@@ -35,13 +35,13 @@ def main():
     def button1_pressed():
         led1.on()
         client.connect()
-        for k in range(0, 24):
-            for j in range(0, 60):
-                now = datetime(2021, 2, 14, k, j, 0)
-                if client.is_connected():
-                    print('connected')
-                    data = panel.calculate_data(now)
-                    client.send_data(data)
+        # for k in range(0, 24):
+        #     for j in range(0, 60):
+        #         now = datetime(2020, 6, 22, k, j, 0)
+        #         if client.is_connected():
+        #             print('connected')
+        #             data = panel.calculate_data(now)
+        #             client.send_data(data)
 
     button1 = Button(11)
     button1.when_pressed = button1_pressed

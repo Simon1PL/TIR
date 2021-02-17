@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 db = TinyDB('solar_database.json')
 sg.theme('Dark Red')
-layout = [[sg.Text('Date Chooser Test Harness', key='-TXT-')],
+layout = [[sg.Text('display plots of each day', key='-TXT-')],
           [sg.Button('display efficiency diagram'), sg.Button('display voltage diagram'),
            sg.Button('display current diagram'), sg.Exit()]]
 
