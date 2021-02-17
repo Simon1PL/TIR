@@ -29,7 +29,6 @@ while True:
             if float(r["G"]) != 0:
                 plot_data.append(float(r['I']) * float(r["V"]) / (float(r["G"]) * float(r['S'])))
         plt.plot(plot_data)
-        plt.savefig('diagram.png')
         plt.show()
 
 window.close()
