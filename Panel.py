@@ -53,11 +53,11 @@ class Panel:
         return I, V
 
     def calculate_data(self):
-        now = datetime()
+        now = datetime.now()
         g = calculate_g(direction, tilt, latitude, longitude, now)
-        print(now, panel_first.get_power_stats(g))
-        i, v = panel_first.get_power_stats(calculate_g(direction, tilt, latitude, longitude, now))
-        data = {"panel_name": panel_first.name, "I": i, "V": v, "G": g, "S": s, "Time": now.__str__()}
+        print(now, self.get_power_stats(g))
+        i, v = self.get_power_stats(calculate_g(direction, tilt, latitude, longitude, now))
+        data = {"panel_name": self.name, "I": i, "V": v, "G": g, "S": s, "Time": now.__str__()}
         return data
 
     # def getT(self):

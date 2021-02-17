@@ -11,11 +11,13 @@ class Client:
         return self.connected
     
     def connect(self):
+        print('connecting...')
         self.mqttc.connect("test.mosquitto.org", 1883, 60)
-        self.mqttc.loop_forever()
+        #self.mqttc.loop_forever()
+        print('cpnnected')
         self.connected = True
 
-    def send_data(self):
+    def send_data(self, data):
         self.mqttc.publish("data/from_panel/" + self.client_id, payload=json.dumps(data), qos=0, retain=False)
 
 

@@ -44,6 +44,7 @@ def main():
 
     while True:
         if client.is_connected():
+            print('connected')
             data = panel.calculate_data()
             client.send_data(data)
             sleep(3)

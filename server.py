@@ -11,7 +11,7 @@ def load_panel_data(data):
 
 def on_message(client, userdata, msg):
     data = msg.payload.decode("utf-8")
-    # print("received: " + msg.topic + " " + data)
+    print("received: " + msg.topic + " " + data)
     if "from_panel" in msg.topic:
         # print(data)
         load_panel_data(json.loads(data))
@@ -21,7 +21,7 @@ def on_message(client, userdata, msg):
 
 def on_connect(client, userdata, flags, rc):
     print("server started")
-    mqttc.subscribe("data/from_panel/#")  # odbieranie wiadomosci od paneli
+    mqttc.subscribe("data/from_panel/1")  # odbieranie wiadomosci od paneli
 
 
 mqttc = mqtt.Client("server")
